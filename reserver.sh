@@ -12,23 +12,35 @@ FILE_NAME=".reservation"         # The file that will be used to store the reser
 DIRECTORY=$HOME                  # The directory where the reservation is stored.
 RESERVATION_SIZE=5               # The amount of space, in gigabytes, to reserve.
 MAX_UNALLOCATED_SPACE_PERCENT=50 # The maximum percentage of unallocated space that can be reserved.
+CONFIG="$HOME/.reserver.conf"    # The configuration file.
 LOCK_FILE="/tmp/reserver.lock"   # The lock file. Prevent multiple reservations at once.
 
 # Don't edit below this line.
 
 # TODO Ensure lock is locked/released when appropriate (e.g. in remove()).
+# TODO Add CONFIG support for flags.
 
 # For echo -e color support.
 TXT_DEFAULT='\033[0m'
+TXT_GREY='\033[2m'
 TXT_GREEN='\033[0;32m'
 TXT_RED='\033[0;31m'
+TXT_BOLD='\033[1m'
+TXT_UNBOLD_DIM='\033[0;2m'
 
-# For here-doc color support.
-TXT_WHITE=$(tput setaf 252)
-TXT_GREY=$(tput setaf 8)
+if [ $MAX_UNALLOCATED_SPACE_PERCENT -gt 100 ]; then
+    echo -e "${TXT_RED}MAX_UNALLOCATED_SPACE_PERCENT must be less than 100. Exiting.${TXT_DEFAULT}"
+    exit 1
+fi
+
+if [ ! -d "$DIRECTORY" ] || [ ! -w "$DIRECTORY" ]; then
+    echo -e "${TXT_RED}Directory is not usable or does not exist. Exiting.${TXT_DEFAULT}"
+    exit 1
+fi
 
 help() {
-    cat <<-EOF
+    echo -e "$(
+        cat <<-EOF
 Usage: $(basename "$0") [options]
 ${TXT_GREY}
 This script will reserve space on a server,
@@ -39,20 +51,21 @@ can remove this reservation and the server will hopefully
 have enough space to function again while you try to fix
 whatever caused the issue.
 
-By default, will create a 5GB reservation file 
+By default, will create a ${TXT_BOLD}5GB${TXT_UNBOLD_DIM} reservation file 
 in your home directory.
-${TXT_WHITE}
+${TXT_DEFAULT}
 Options:
-    -r: Removes reservation.
-    -s: The amount of space, in gigabytes, to reserve. 
-        ${TXT_GREY}Default is $RESERVATION_SIZE. 
-        Max is $MAX_UNALLOCATED_SPACE_PERCENT% of the system's unallocated space.${TXT_WHITE}
+    -r: Remove reservation.
+    -s: The amount of space, in ${TXT_BOLD}gigabytes${TXT_DEFAULT}, to reserve. 
+        ${TXT_GREY}Default is ${TXT_BOLD}$RESERVATION_SIZE${TXT_UNBOLD_DIM}. 
+        Max is ${TXT_BOLD}$MAX_UNALLOCATED_SPACE_PERCENT%${TXT_UNBOLD_DIM} of the system's unallocated space.${TXT_DEFAULT}
     -f: The file name to use for the reservation.
-        ${TXT_GREY}Default is '$FILE_NAME'.${TXT_WHITE}
+        ${TXT_GREY}Default is '$FILE_NAME'.${TXT_DEFAULT}
     -d: The directory to use for the reservation. 
-        ${TXT_GREY}Default is the user's home directory.${TXT_WHITE}
+        ${TXT_GREY}Default is the user's home directory.${TXT_DEFAULT}
     -h: Print this help message.
 EOF
+    )"
 }
 
 # Tiago Lopo: https://stackoverflow.com/a/29436423/9264137
@@ -73,9 +86,7 @@ function yes_or_no {
 remove() {
     if [ -f "$DIRECTORY/$FILE_NAME" ]; then
         rm "$DIRECTORY/$FILE_NAME"
-
         echo -e "${TXT_GREEN}Reservation removed. Good luck!${TXT_DEFAULT}"
-
         exit 0
     else
         echo -e "${TXT_RED}No reservation file found.${TXT_DEFAULT}"
@@ -87,13 +98,17 @@ remove() {
     fi
 }
 
+if ((BASH_VERSINFO[0] < 5)); then
+    echo -e "${TXT_RED}This script was tested on GNU bash, version 5.1.8. You're using an older version. ${TXT_DEFAULT}"
+    message="Would you still like to continue?"
+    yes_or_no "$message" || exit 1
+fi
+
 while getopts ':f:hn:d:s:rc' OPTION; do
     case "$OPTION" in
-    r)
-        remove
-        ;;
     s)
         RESERVATION_SIZE="$OPTARG"
+        echo -e "Reservation size set to ${TXT_BOLD}${RESERVATION_SIZE}GB${TXT_DEFAULT}."
         ;;
     f)
         FILE_NAME="$OPTARG"
@@ -102,6 +117,9 @@ while getopts ':f:hn:d:s:rc' OPTION; do
     d)
         DIRECTORY="$OPTARG"
         echo "Using directory: $DIRECTORY"
+        ;;
+    r)
+        remove
         ;;
     h)
         help
@@ -137,7 +155,7 @@ if [ -f "$DIRECTORY/$FILE_NAME" ]; then
     exit 0
 fi
 
-echo -e "${TXT_GREEN}Reserving $RESERVATION_SIZE GB of space...${TXT_DEFAULT}"
+echo -e "${TXT_GREEN}Reserving ${RESERVATION_SIZE}GB of space...${TXT_DEFAULT}"
 
 # Get the total unallocated space on the system.
 TOTAL_UNALLOCATED_SPACE=$(df -BG / | grep -v "Filesystem" | awk '{print $4}' | tail -n 1)
