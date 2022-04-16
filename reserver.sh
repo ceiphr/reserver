@@ -29,6 +29,18 @@ TXT_RED='\033[0;31m'
 TXT_BOLD='\033[1m'
 TXT_UNBOLD_DIM='\033[0;2m'
 
+# In case the user quits the program in the critical section,
+# they can only do this during a confirmation prompt. So, we can
+# simply unlock the section before exiting.
+handle_sigint() {
+    if [ -f "$LOCK_FILE" ]; then
+        rm "$LOCK_FILE"
+    fi
+    exit 1
+}
+
+trap 'handle_sigint' INT
+
 # Check the default configuration is valid.
 if [ $MAX_UNALLOCATED_SPACE_PERCENT -gt 100 ]; then
     echo -e "${TXT_RED}MAX_UNALLOCATED_SPACE_PERCENT must be less than 100. Exiting.${TXT_DEFAULT}" >&2
