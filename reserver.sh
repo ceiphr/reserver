@@ -108,8 +108,11 @@ read_config() {
 }
 
 write_config() {
+    # In case the path is relative, make it absolute.
+    absolute_dir=$(realpath "$DIRECTORY")
+
     echo "file_name=$FILE_NAME" >"$CONFIG_FILE"
-    echo "directory=$DIRECTORY" >>"$CONFIG_FILE"
+    echo "directory=$absolute_dir" >>"$CONFIG_FILE"
 }
 
 # Remove the reservation file if it exists.
@@ -161,12 +164,10 @@ while getopts ':f:hd:s:r' OPTION; do
     f)
         FILE_NAME="$OPTARG"
         configured=1
-        echo "Using file: $FILE_NAME"
         ;;
     d)
         DIRECTORY="$OPTARG"
         configured=1
-        echo "Using directory: $DIRECTORY"
         ;;
     r)
         remove
@@ -249,7 +250,7 @@ elif ! command -v fallocate &>/dev/null; then
     # Fallocate is not available. We're on a legacy system. Using dd instead.
     dd if=/dev/zero of="$DIRECTORY/$FILE_NAME" bs=1M count=$CALCULATED_RESERVATION_SIZE
 else
-    fallocate -l $CALCULATED_RESERVATION_SIZE "$DIRECTORY/$FILE_NAME"
+    fallocate -l ${CALCULATED_RESERVATION_SIZE}M "$DIRECTORY/$FILE_NAME"
 fi
 
 # Release lock.
