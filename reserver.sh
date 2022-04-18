@@ -29,9 +29,12 @@ TXT_RED='\033[0;31m'
 TXT_BOLD='\033[1m'
 TXT_UNBOLD_DIM='\033[0;2m'
 
-# In case the user quits the program in the critical section,
-# they can only do this during a confirmation prompt. So, we can
+# In case the user quits the program in the critical section, we can
 # simply unlock the section before exiting.
+#
+# If they interrupt the script as it's writing to the reservation file,
+# the worst that could happen is that the reservation file is only partially
+# full. The script will still function correctly.
 handle_sigint() {
     if [ -f "$LOCK_FILE" ]; then
         rm "$LOCK_FILE"
@@ -45,6 +48,13 @@ trap 'handle_sigint' INT
 if [ $MAX_UNALLOCATED_SPACE_PERCENT -gt 100 ]; then
     echo -e "${TXT_RED}MAX_UNALLOCATED_SPACE_PERCENT must be less than 100. Exiting.${TXT_DEFAULT}" >&2
     exit 1
+fi
+
+# Check if the DEBUG environment variable is set.
+if [[ -z "${RESERVER_DEBUG}" ]] || [ $DEBUG -eq 1 ]; then
+    DEBUG=1
+else
+    DEBUG=0
 fi
 
 if [ $DEBUG -eq 1 ]; then
@@ -237,7 +247,7 @@ if [ -f "$DIRECTORY/$FILE_NAME" ]; then
     exit $ret
 fi
 
-echo -e "${TXT_GREEN}Reserving ${RESERVATION_SIZE}GB of space...${TXT_DEFAULT}"
+echo -e "Reserving ${TXT_BOLD}${RESERVATION_SIZE}GB${TXT_DEFAULT} of space..."
 
 # Get the total unallocated space on the system.
 TOTAL_UNALLOCATED_SPACE=$(df -BG / | grep -v "Filesystem" | awk '{print $4}' | tail -n 1)
