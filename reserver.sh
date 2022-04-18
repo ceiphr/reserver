@@ -51,10 +51,8 @@ if [ $MAX_UNALLOCATED_SPACE_PERCENT -gt 100 ]; then
 fi
 
 # Check if the DEBUG environment variable is set.
-if [[ -z "${RESERVER_DEBUG}" ]] || [ $DEBUG -eq 1 ]; then
+if [[ -z "${RESERVER_DEBUG}" ]]; then
     DEBUG=1
-else
-    DEBUG=0
 fi
 
 if [ $DEBUG -eq 1 ]; then
@@ -218,22 +216,27 @@ else
     touch "$LOCK_FILE"
 fi
 
-# If the user configured a file name or directory, remember that,
-# so, it's not necessary to ask again when removing the reservation.
-if [ $configured -eq 1 ]; then
-    touch "$CONFIG_FILE"
-    write_config
-elif [ -f "$CONFIG_FILE" ]; then
+# Load config file if it exists.
+if [ -f "$CONFIG_FILE" ]; then
     read_config
 fi
 
-if [ ! -d "$DIRECTORY" ] || [ ! -w "$DIRECTORY" ]; then
+if [ ! -d "$DIRECTORY" ] || [ ! -w "$DIRECTORY" ] ||
+    [ "$DIRECTORY/$FILE_NAME" = "$CONFIG_FILE" ] ||
+    [ "$DIRECTORY/$FILE_NAME" = "$LOCK_FILE" ]; then
     echo -e "${TXT_RED}Directory is not usable or does not exist. Exiting.${TXT_DEFAULT}" >&2
 
     if [ -f "$LOCK_FILE" ]; then
         rm "$LOCK_FILE"
     fi
     exit 1
+fi
+
+# If the user configured a file name or directory, remember that,
+# so, it's not necessary to ask again when removing the reservation.
+if [ $configured -eq 1 ] && [ ! -f "$CONFIG_FILE" ]; then
+    touch "$CONFIG_FILE"
+    write_config
 fi
 
 # Reservation was already made.
@@ -247,12 +250,25 @@ if [ -f "$DIRECTORY/$FILE_NAME" ]; then
     exit $ret
 fi
 
+if [ "$RESERVATION_SIZE" -le 0 ]; then
+    echo -e "${TXT_RED}Reservation size is invalid. Exiting.${TXT_DEFAULT}" >&2
+    
+    if [ -f "$LOCK_FILE" ]; then
+        rm "$LOCK_FILE"
+    fi
+    exit 1
+fi
+
 echo -e "Reserving ${TXT_BOLD}${RESERVATION_SIZE}GB${TXT_DEFAULT} of space..."
 
 # Get the total unallocated space on the system.
 TOTAL_UNALLOCATED_SPACE=$(df -BG / | grep -v "Filesystem" | awk '{print $4}' | tail -n 1)
 if [ -z "$TOTAL_UNALLOCATED_SPACE" ]; then
     echo -e "${TXT_RED}Unable to determine total unused disk space. Exiting.${TXT_DEFAULT}" >&2
+
+    if [ -f "$LOCK_FILE" ]; then
+        rm "$LOCK_FILE"
+    fi
     exit 1
 fi
 
@@ -260,6 +276,10 @@ fi
 ALLOWED_UNALLOCATED_SPACE=$((${TOTAL_UNALLOCATED_SPACE::-1} * MAX_UNALLOCATED_SPACE_PERCENT / 100))
 if [ "$ALLOWED_UNALLOCATED_SPACE" -lt "$RESERVATION_SIZE" ]; then
     echo -e "${TXT_RED}Not enough unused disk space. Exiting.${TXT_DEFAULT}" >&2
+
+    if [ -f "$LOCK_FILE" ]; then
+        rm "$LOCK_FILE"
+    fi
     exit 1
 fi
 
