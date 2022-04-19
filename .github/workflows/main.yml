@@ -20,12 +20,12 @@ jobs:
                 bats-version: 1.6.0
             - name: Setup BATS libs
               uses: brokenpip3/setup-bats-libs@0.1.0
-            - uses: actions/checkout@v2
               with:
                 assert-path: ./test/test_helper
                 file-path: ./test/test_helper
                 support-path: ./test/test_helper
                 detik-install: false
+            - uses: actions/checkout@v2
             - name: Run test on OS ${{ matrix.os }}
               env:
                   TERM: linux # fix tput for tty issue work around
