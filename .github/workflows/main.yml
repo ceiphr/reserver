@@ -7,6 +7,8 @@ jobs:
             - uses: actions/checkout@v2
             - name: Run shellcheck
               run: |
+                  sudo apt-get update -y
+                  sudo apt-get install shellcheck
                   shellcheck reserver.sh
     linux:
         strategy:
@@ -16,16 +18,21 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Setup BATS
-              uses: mig4/setup-bats@v1
-              with:
-                bats-version: 1.6.0
-            - name: Setup BATS libs
-              uses: brokenpip3/setup-bats-libs@0.1.0
-              with:
-                assert-path: ./test/test_helper/bats-assert
-                file-path: ./test/test_helper/bats/file
-                support-path: ./test/test_helper/bats/support
-                detik-install: false
+              run: |
+                  npm install -g bats
+                  sudo apt-get install -y wget unzip
+
+                  wget https://github.com/bats-core/bats-assert/archive/master.zip -O assert.zip
+                  unzip assert.zip
+                  mv bats-assert-master/ test/test_helper/bats-assert/
+
+                  wget https://github.com/bats-core/bats-file/archive/master.zip -O file.zip
+                  unzip file.zip
+                  mv bats-file-master/ test/test_helper/bats-file/
+                  
+                  wget https://github.com/bats-core/bats-support/archive/master.zip -O support.zip
+                  unzip support.zip
+                  mv bats-support-master/ test/test_helper/bats-support/
             - name: Run test on OS ${{ matrix.os }}
               env:
                   TERM: linux # fix tput for tty issue work around
