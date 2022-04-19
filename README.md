@@ -4,11 +4,9 @@
 
 <!-- TODO: Logo -->
 
-The server space reserver.
-
 [![CI][ci-shield]][ci-url]
-[![MIT License][license-shield]][license-url]
 ![BASH Version][bash-version]
+[![MIT License][license-shield]][license-url]
 
 ## About The Project
 
@@ -25,8 +23,10 @@ Based on this great article by Brian Schrader:
 
 ## Installation
 
+Run the following in the terminal of your server:
+
 ```sh
-curl https://get.reserver.sh > reserver.sh && chmod +x reserver.sh
+curl https://get.reserver.sh | sh
 ```
 
 ## Usage
@@ -54,7 +54,7 @@ This project both leveraged and took inspiration from the following projects:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [bash-version]: https://img.shields.io/badge/Bash-v4.4%5E-green?&logo=gnubash&logoColor=white
-[ci-shield]: https://github.com/ceiphr/reserver/actions/workflows/main.yml/badge.svg?branch=main
-[ci-url]: https://img.shields.io/github/license/ceiphr/reserver
+[ci-shield]: https://img.shields.io/github/workflow/status/ceiphr/reserver/CI
+[ci-url]: https://github.com/ceiphr/reserver/actions/workflows/main.yml
 [license-shield]: https://img.shields.io/github/license/ceiphr/reserver
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
