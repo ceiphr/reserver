@@ -14,6 +14,7 @@ jobs:
                 os: ["ubuntu-latest", "ubuntu-20.04", "ubuntu-18.04"]
         runs-on: ${{ matrix.os }}
         steps:
+            - uses: actions/checkout@v2
             - name: Setup BATS
               uses: mig4/setup-bats@v1
               with:
@@ -21,11 +22,10 @@ jobs:
             - name: Setup BATS libs
               uses: brokenpip3/setup-bats-libs@0.1.0
               with:
-                assert-path: ./test/test_helper
-                file-path: ./test/test_helper
-                support-path: ./test/test_helper
+                assert-path: ./test/test_helper/bats-assert
+                file-path: ./test/test_helper/bats/file
+                support-path: ./test/test_helper/bats/support
                 detik-install: false
-            - uses: actions/checkout@v2
             - name: Run test on OS ${{ matrix.os }}
               env:
                   TERM: linux # fix tput for tty issue work around
