@@ -20,7 +20,8 @@ jobs:
             - name: Setup BATS
               run: |
                   npm install -g bats
-                  sudo apt-get install -y wget unzip
+                  echo $PWD
+                  ls -la
 
                   wget https://github.com/bats-core/bats-assert/archive/master.zip -O assert.zip
                   unzip assert.zip
