@@ -73,7 +73,7 @@ help() {
 Usage: $(basename "$0") [options]
 ${TXT_GREY}
 This script will reserve space on a server,
-so, you can delete it later. 
+so, you can delete it later.
 
 Specifically, when your server runs out of space, you
 can remove this reservation and the server will hopefully

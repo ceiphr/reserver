@@ -9,6 +9,7 @@ setup() {
     PATH="$DIR/..:$PATH"
     FILE_NAME=".reservation" # The file that will be used to store the reservation.
     DIRECTORY=$HOME          # The directory where the reservation is stored.
+    export RESERVER_DEBUG=1
 }
 
 # Reservation file tests.
@@ -73,7 +74,7 @@ setup() {
     assert_file_not_exists "/tmp/reserver.lock"
 }
 
-@test "Reservation szie can't be too large." {
+@test "Reservation size can't be too large." {
     # I have a 1TB drive. 550GB > 50% of the unallocated space on my drive.
     run reserver.sh -s 550
     [ "$status" -eq 1 ]

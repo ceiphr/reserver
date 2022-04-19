@@ -10,11 +10,13 @@
 
 ## About The Project
 
-A _very mild_ contingency plan for servers that run out of space.
-Based on this great article by Brian Schrader:
-[Why All My Servers Have An 8gb Empty File](https://brianschrader.com/archive/why-all-my-servers-have-an-8gb-empty-file/).
+A _very mild_ contingency plan for servers that run out of space. Based on this great article by Brian Schrader: [Why All My Servers Have An 8gb Empty File](https://brianschrader.com/archive/why-all-my-servers-have-an-8gb-empty-file/).
 
-<!-- TODO: Justify the script. -->
+This script will reserve space on a server, so, you can delete it later.
+
+Specifically, when your server runs out of space, you can remove the reservation file this script produces so that the server will hopefully have enough space to function again while you try to fix whatever caused the issue.
+
+You should always use monitoring software and or SaaS offering such as [Datadog](https://www.datadoghq.com/) to monitor disk usage on your servers. That is the tool that will _really_ help you mitigate this problem. Think of `reserver.sh` as a sidekick. It's simple to use and is there if your primary tools somehow fail.
 
 ### Built and Tested With
 
@@ -36,15 +38,28 @@ curl https://get.reserver.sh | sh
 Simply running the command will produce a **5GB** reservation file located at `$HOME/.reservation`:
 
 ```sh
-./reserver.sh
+$ ./reserver.sh
+Reserving 5GB of space...
+Reservation complete!
 ```
 
-Rerunning the script will ask if you'd like to delete the reservation.
+Rerunning the script will ask if you'd like to delete the reservation:
+
+```sh
+$ ./reserver.sh
+Reservation file already exists. Delete? [y/N]: y
+Reservation removed. Good luck!
+```
+
+### Arguments
 
 You can provide a custom directory, file name or size:
 
 ```sh
-./reserver -d /tmp -f foo -s 10
+$ ./reserver.sh -d /tmp -f foo -s 10
+Reservation size set to 10GB.
+Reserving 10GB of space...
+Reservation complete!
 ```
 
 The above command will create a reservation file `foo` in `/tmp` that is **10GB** in size.
@@ -56,7 +71,9 @@ When supplying custom arguments, `reserver.sh` will create `$HOME/.reserver.conf
 When running the command again without arguments:
 
 ```sh
-./reserver.sh
+$ ./reserver.sh
+Reservation file already exists. Delete? [y/N]: y
+Reservation removed. Good luck!
 ```
 
 `reserver.sh` will read `.reserver.conf` to find where your reservation is. The script will ask if you'd like to delete the reservation, just like with the default configuration.
