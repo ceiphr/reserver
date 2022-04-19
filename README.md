@@ -37,7 +37,7 @@ curl https://get.reserver.sh | sh
 
 Simply running the command will produce a **5GB** reservation file located at `$HOME/.reservation`:
 
-```sh
+```txt
 $ ./reserver.sh
 Reserving 5GB of space...
 Reservation complete!
@@ -45,7 +45,7 @@ Reservation complete!
 
 Rerunning the script will ask if you'd like to delete the reservation:
 
-```sh
+```txt
 $ ./reserver.sh
 Reservation file already exists. Delete? [y/N]: y
 Reservation removed. Good luck!
@@ -55,7 +55,7 @@ Reservation removed. Good luck!
 
 You can provide a custom directory, file name or size:
 
-```sh
+```txt
 $ ./reserver.sh -d /tmp -f foo -s 10
 Reservation size set to 10GB.
 Reserving 10GB of space...
@@ -70,7 +70,7 @@ When supplying custom arguments, `reserver.sh` will create `$HOME/.reserver.conf
 
 When running the command again without arguments:
 
-```sh
+```txt
 $ ./reserver.sh
 Reservation file already exists. Delete? [y/N]: y
 Reservation removed. Good luck!
