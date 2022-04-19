@@ -21,6 +21,8 @@ DEBUG=0                            # Set to 1 to enable debug mode.
 # Don't edit below this line.
 # ----------------------------------------------------------------------------------------------------------------------
 
+VERSION=v1.0.0
+
 # For echo -e color support.
 TXT_DEFAULT='\033[0m'
 TXT_GREY='\033[2m'
@@ -183,7 +185,7 @@ fi
 
 # Parse command line arguments.
 configured=0
-while getopts ':f:hd:s:r' OPTION; do
+while getopts ':f:hd:s:rv' OPTION; do
     case "$OPTION" in
     s)
         RESERVATION_SIZE="$OPTARG"
@@ -200,6 +202,10 @@ while getopts ':f:hd:s:r' OPTION; do
     r)
         remove
         exit $ret
+        ;;
+    v)
+        echo "$VERSION"
+        exit 0
         ;;
     h)
         help

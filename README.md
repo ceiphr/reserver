@@ -5,6 +5,7 @@
 <!-- TODO: Logo -->
 
 [![CI][ci-shield]][ci-url]
+![Script Version][script-version]
 ![BASH Version][bash-version]
 [![MIT License][license-shield]][license-url]
 
@@ -99,8 +100,9 @@ This project both leveraged and took inspiration from the following products and
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-[bash-version]: https://img.shields.io/badge/Bash-v4.4%5E-green?&logo=gnubash&logoColor=white
+[script-version]: https://img.shields.io/github/v/release/ceiphr/reserver?color=green
+[bash-version]: https://img.shields.io/badge/bash-v4.4%5E-green?&logo=gnubash&logoColor=white
 [ci-shield]: https://img.shields.io/github/workflow/status/ceiphr/reserver/CI?color=green&logo=github
 [ci-url]: https://github.com/ceiphr/reserver/actions/workflows/main.yml
 [license-shield]: https://img.shields.io/github/license/ceiphr/reserver
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[license-url]: https://github.com/ceiphr/reserver/blob/main/LICENSE
