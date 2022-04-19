@@ -95,7 +95,7 @@ setup() {
 }
 
 @test "Directory isn't writable." {
-    run reserver.sh -d /opt
+    run reserver.sh -d /
     [ "$status" -eq 1 ]
     assert_output --partial 'Directory is not usable or does not exist. Exiting.'
     assert_file_not_exists "$DIRECTORY/$FILE_NAME"
