@@ -21,19 +21,22 @@ jobs:
               run: |
                   npm install -g bats
                   echo $PWD
-                  ls -la
+                  ls test
 
                   wget https://github.com/bats-core/bats-assert/archive/master.zip -O assert.zip
                   unzip assert.zip
-                  mv bats-assert-master/ test/test_helper/bats-assert/
+                  mkdir test/test_helper/bats-assert/
+                  mv bats-assert-master/* test/test_helper/bats-assert/
 
                   wget https://github.com/bats-core/bats-file/archive/master.zip -O file.zip
                   unzip file.zip
-                  mv bats-file-master/ test/test_helper/bats-file/
+                  mkdir test/test_helper/bats-file/
+                  mv bats-file-master/* test/test_helper/bats-file/
                   
                   wget https://github.com/bats-core/bats-support/archive/master.zip -O support.zip
                   unzip support.zip
-                  mv bats-support-master/ test/test_helper/bats-support/
+                  mkdir test/test_helper/bats-support/
+                  mv bats-support-master/* test/test_helper/bats-support/
             - name: Run test on OS ${{ matrix.os }}
               env:
                   TERM: linux # fix tput for tty issue work around
