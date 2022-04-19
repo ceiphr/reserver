@@ -20,8 +20,6 @@ jobs:
             - name: Setup BATS
               run: |
                   npm install -g bats
-                  echo $PWD
-                  ls test
 
                   wget https://github.com/bats-core/bats-assert/archive/master.zip -O assert.zip
                   unzip assert.zip
