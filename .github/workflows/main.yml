@@ -16,6 +16,10 @@ jobs:
                 os: ["ubuntu-latest", "ubuntu-20.04", "ubuntu-18.04"]
         runs-on: ${{ matrix.os }}
         steps:
+            - name: Setup BATS
+              uses: mig4/setup-bats@v1
+              with:
+                  bats-version: 1.6.0
             - uses: actions/checkout@v2
             - name: Run test on OS ${{ matrix.os }}
               env:
