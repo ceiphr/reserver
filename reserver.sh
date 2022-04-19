@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Server space reserver.
-# https://github.com/ceiphr/reserver
+# https://github.com/ceiphr/reserver/
 # MIT License
 # Copyright (c) 2022 Ari Birnbaum.
 #
@@ -29,6 +29,14 @@ TXT_RED='\033[0;31m'
 TXT_BOLD='\033[1m'
 TXT_UNBOLD_DIM='\033[0;2m'
 
+# https://no-color.org/
+if [[ -n "${NO_COLOR}" ]]; then
+    TXT_DEFAULT='\033[0m'
+    TXT_GREY='\033[0m'
+    TXT_GREEN='\033[0m'
+    TXT_RED='\033[0m'
+fi
+
 # In case the user quits the program in the critical section, we can
 # simply unlock the section before exiting.
 #
@@ -51,7 +59,7 @@ if [ $MAX_UNALLOCATED_SPACE_PERCENT -gt 100 ]; then
 fi
 
 # Check if the DEBUG environment variable is set.
-if [[ -z "${RESERVER_DEBUG}" ]]; then
+if [[ -n "${RESERVER_DEBUG}" ]]; then
     DEBUG=1
 fi
 
@@ -208,6 +216,11 @@ while getopts ':f:hd:s:r' OPTION; do
     esac
 done
 
+if [ $configured -eq 1 ] && [ -f "$DIRECTORY/$FILE_NAME" ]; then
+    echo -e "${TXT_RED}Configured file already exists. Will not overwrite. Exiting.${TXT_DEFAULT}" >&2
+    exit 1
+fi
+
 # Acquire lock.
 if [ -f "$LOCK_FILE" ]; then
     echo -e "${TXT_RED}A reservation is already in process. Exiting.${TXT_DEFAULT}" >&2
@@ -252,7 +265,7 @@ fi
 
 if [ "$RESERVATION_SIZE" -le 0 ]; then
     echo -e "${TXT_RED}Reservation size is invalid. Exiting.${TXT_DEFAULT}" >&2
-    
+
     if [ -f "$LOCK_FILE" ]; then
         rm "$LOCK_FILE"
     fi
