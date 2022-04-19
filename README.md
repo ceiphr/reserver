@@ -12,11 +12,11 @@
 
 A _very mild_ contingency plan for servers that run out of space. Based on this great article by Brian Schrader: [Why All My Servers Have An 8gb Empty File](https://brianschrader.com/archive/why-all-my-servers-have-an-8gb-empty-file/).
 
-This script will reserve space on a server, so, you can delete it later.
+Just like Schrader does in the article, this script will reserve space on a server, so, you can delete it later.
 
 Specifically, when your server runs out of space, you can remove the reservation file this script produces so that the server will hopefully have enough space to function again while you try to fix whatever caused the issue.
 
-You should always use monitoring software and or SaaS offering such as [Datadog](https://www.datadoghq.com/) to monitor disk usage on your servers. That is the tool that will _really_ help you mitigate this problem. Think of `reserver.sh` as a sidekick. It's simple to use and is there if your primary tools somehow fail.
+You should always use monitoring software and or SaaS offerings such as [Datadog](https://www.datadoghq.com/) to monitor disk usage on your servers. That is the tool that will _really_ help you mitigate this potential problem. Think of `reserver.sh` as a sidekick. It's simple to use and is there if your primary tools somehow fail. It is a _mild_ contingency plan if you can spare the disk space.
 
 ### Built and Tested With
 
@@ -92,7 +92,7 @@ This project both leveraged and took inspiration from the following products and
 -   [get.acme.sh](https://github.com/acmesh-official/get.acme.sh)
 -   [bocker](https://github.com/p8952/bocker)
 -   [Minecraft Backup](https://github.com/nicolaschan/minecraft-backup)
--   [Img Shields](https://shields.io)(https://github.com/nicolaschan/minecraft-backup)
+-   [Img Shields](https://shields.io)
 -   [Best-README-Template](https://github.com/othneildrew/Best-README-Template/blob/master/README.md)
 -   [Vercel](https://vercel.com)
 -   [Svelte Kit](https://kit.svelte.dev/)
