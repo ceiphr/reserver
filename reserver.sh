@@ -168,9 +168,9 @@ remove() {
 }
 
 # Safety checks
-version=5
-if ((BASH_VERSINFO[0] < version)); then
-    echo -e "${TXT_RED}This script was tested on GNU bash, version ${version}."
+BASH_VERSION=5
+if ((BASH_VERSINFO[0] < BASH_VERSION)); then
+    echo -e "${TXT_RED}This script was tested on GNU bash, version ${BASH_VERSION}."
     echo -e "You're using an older version (v${BASH_VERSINFO[0]}).${TXT_DEFAULT}"
     message="Would you still like to continue?"
     yes_or_no "$message" || exit 1

@@ -1,7 +1,6 @@
-<div id="top"></div>
-
 # Reserver
 
+<div id="top"></div>
 <!-- TODO: Logo -->
 
 [![CI][ci-shield]][ci-url]
