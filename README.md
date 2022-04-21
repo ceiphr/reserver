@@ -1,7 +1,5 @@
-# Reserver
-
+<h1><img src="assets/reserver.png" alt="Reserver"/></h1>
 <div id="top"></div>
-<!-- TODO: Logo -->
 
 [![CI][ci-shield]][ci-url]
 ![Script Version][script-version]
@@ -90,12 +88,12 @@ This project both leveraged and took inspiration from the following products and
 
 -   [acme.sh](https://github.com/acmesh-official/acme.sh)
 -   [get.acme.sh](https://github.com/acmesh-official/get.acme.sh)
--   [bocker](https://github.com/p8952/bocker)
+-   [Bocker](https://github.com/p8952/bocker)
 -   [Minecraft Backup](https://github.com/nicolaschan/minecraft-backup)
 -   [Img Shields](https://shields.io)
 -   [Best-README-Template](https://github.com/othneildrew/Best-README-Template/blob/master/README.md)
 -   [Vercel](https://vercel.com)
--   [Svelte Kit](https://kit.svelte.dev/)
+-   [Next.js](https://nextjs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
