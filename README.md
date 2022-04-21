@@ -1,10 +1,15 @@
-<h1><img width="200px" src="assets/reserver.png" alt="Reserver"/></h1>
-<div id="top"></div>
+<h1 align="center">
+    <img width="300px" src="assets/reserver.png" alt="Reserver"/>
 
 [![CI][ci-shield]][ci-url]
 ![Script Version][script-version]
 ![BASH Version][bash-version]
 [![MIT License][license-shield]][license-url]
+
+</h1>
+<div id="top"></div>
+
+<h5 align="center"> The server space reserver. Intended for Linux systems. Tested on Ubuntu 20.04, 21.10 and Fedora Workstation 35. </h5>
 
 ## About The Project
 
