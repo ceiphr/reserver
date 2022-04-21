@@ -1,4 +1,4 @@
-<h1><img src="assets/reserver.png" alt="Reserver"/></h1>
+<h1><img width="200px" src="assets/reserver.png" alt="Reserver"/></h1>
 <div id="top"></div>
 
 [![CI][ci-shield]][ci-url]
