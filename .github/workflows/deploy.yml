@@ -7,6 +7,10 @@ on:
 
     workflow_dispatch:
 
+defaults:
+    run:
+        working-directory: ./website
+
 jobs:
     deployment:
         runs-on: ubuntu-latest
@@ -21,7 +25,6 @@ jobs:
                   cache: "npm"
 
             - name: Build
-              working-directory: ./website
               run: |
                   npm i --legacy-peer-deps
                   npm run build
