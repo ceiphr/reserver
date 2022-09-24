@@ -23,6 +23,7 @@ jobs:
               with:
                   node-version: "lts/*"
                   cache: "npm"
+                  cache-dependency-path: "./website/yarn.lock"
 
             - name: Build
               run: |
