@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    @apply dark:bg-black dark:text-white;
+    padding: 0;
+    margin: 0;
+    font-family: KaTeX_Main, serif;
+}
+
+a {
+    @apply text-blue-500 dark:text-blue-300 hover:underline;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.slide-in {
+    opacity: 0;
+}
+
+.katex-display {
+    margin: 0 !important;
+}
