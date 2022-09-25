@@ -1,15 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
 const nextConfig = {
-    swcMinify: true,
-    reactStrictMode: true,
-    images: {
-        domains: ["img.shields.io"],
-    },
-    assetPrefix: isProd ? "/reserver/" : "",
-    images: {
-        unoptimized: true,
-    },
     async headers() {
         return [
             {
@@ -17,11 +8,26 @@ const nextConfig = {
                 headers: [
                     {
                         key: "Content-Type",
-                        value: "text/html",
+                        value: "text/html; charset=utf-8",
+                    },
+                ],
+            },
+            {
+                source: "/install",
+                headers: [
+                    {
+                        key: "Content-Type",
+                        value: "text/html; charset=utf-8",
                     },
                 ],
             },
         ];
+    },
+    swcMinify: true,
+    reactStrictMode: true,
+    assetPrefix: isProd ? "/reserver/" : "",
+    images: {
+        unoptimized: true,
     },
 };
 
