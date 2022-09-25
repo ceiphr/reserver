@@ -13,7 +13,7 @@ const nextConfig = {
     async headers() {
         return [
             {
-                source: isProd ? "/reserver/install" : "/install",
+                source: "/reserver/install",
                 headers: [
                     {
                         key: "Content-Type",
