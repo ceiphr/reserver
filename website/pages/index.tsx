@@ -37,7 +37,7 @@ Reservation removed. Good luck!`;
                     name="description"
                     content="A very mild contingency plan for servers that run out of space. "
                 />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/reserver/favicon.ico" />
             </Head>
 
             <main className="p-5 md:my-12 max-w-3xl mx-auto">
