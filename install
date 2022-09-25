@@ -45,7 +45,9 @@ download() {
 }
 
 install=true
-_yes_or_no "Install reserver to /usr/local/bin? This requires root access." || install=false
+if [ -z "${RESERVER_INSTALL}" ]; then
+    _yes_or_no "Install reserver to /usr/local/bin? Root required." || install=false
+fi
 
 if [ "$install" = false ]; then
     echo "Run './reserver.sh' to reserve some space!"
