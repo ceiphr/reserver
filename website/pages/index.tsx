@@ -10,10 +10,12 @@ import "prismjs/plugins/command-line/prism-command-line.css";
 
 const Home: NextPage = () => {
     const codeSample = `curl https://ceiphr.io/reserver/install | sh
-./reserver.sh
+Install reserver to /usr/local/bin? This requires root access. [y/N]: y
+Done. Run 'reserver' to reserve some space!
+reserver
 Reserving 5GB of space...
 Reservation complete!
-./reserver.sh
+reserver
 Reservation file already exists. Delete? [y/N]: y
 Reservation removed. Good luck!`;
 
@@ -84,9 +86,9 @@ Reservation removed. Good luck!`;
                         </a>{" "}
                         to monitor disk usage on your servers. That is the tool
                         that will <span className="italic">really</span> help
-                        you mitigate this potential problem. Think of
-                        reserver.sh as a sidekick. It&apos;s simple to use and
-                        is there if your primary tools somehow fail. It is a{" "}
+                        you mitigate this potential problem. Think of Reserver
+                        as a sidekick. It&apos;s simple to use and is there if
+                        your primary tools somehow fail. It is a{" "}
                         <span className="italic">mild</span> contingency plan if
                         you can spare the disk space.
                     </p>
@@ -97,7 +99,7 @@ Reservation removed. Good luck!`;
                         className="slide-in command-line selection:bg-slate-200 dark:selection:bg-slate-700"
                         data-user="user"
                         data-host="remotehost"
-                        data-output="3-4, 6-7"
+                        data-output="2-3, 5-6, 8-9"
                     >
                         <code className="language-bash">{codeSample}</code>
                     </pre>
@@ -109,17 +111,17 @@ Reservation removed. Good luck!`;
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/ceiphr/reserver">
+                            <a href="https://github.com/ceiphr/reserver/blob/main/reserver.sh">
                                 Reserver Source Code
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/ceiphr/get.reserver.sh">
+                            <a href="https://github.com/ceiphr/reserver/blob/main/website/public/install">
                                 Installation Script Source Code
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/ceiphr/reserver.sh">
+                            <a href="https://github.com/ceiphr/reserver/tree/main/website">
                                 Website Source Code
                             </a>
                         </li>
