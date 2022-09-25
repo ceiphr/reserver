@@ -15,14 +15,55 @@ _exists() {
     return $ret
 }
 
+# Tiago Lopo: https://stackoverflow.com/a/29436423/9264137
+# This is used to ask the user for confirmation.
+_yes_or_no() {
+    while true; do
+        read -r -p "$* [y/N]: " yn
+        case $yn in
+        [Yy]*) return 0 ;;
+        [Nn]*)
+            return 1
+            ;;
+        esac
+    done
+}
+
 if [ -z "$BRANCH" ]; then
     BRANCH="main"
 fi
 
-if _exists curl && [ "${RESERVER_USE_WGET:-0}" = "0" ]; then
-    curl https://raw.githubusercontent.com/ceiphr/reserver/$BRANCH/reserver.sh > reserver.sh && chmod +x reserver.sh
-elif _exists wget; then
-    wget -O - https://raw.githubusercontent.com/ceiphr/reserver/$BRANCH/reserver.sh > reserver.sh && chmod +x reserver.sh
+download() {
+    if _exists curl && [ "${RESERVER_USE_WGET:-0}" = "0" ]; then
+        curl -fsSL https://raw.githubusercontent.com/ceiphr/reserver/$BRANCH/reserver.sh >reserver.sh && chmod +x reserver.sh
+    elif _exists wget; then
+        wget -O - https://raw.githubusercontent.com/ceiphr/reserver/$BRANCH/reserver.sh >reserver.sh && chmod +x reserver.sh
+    else
+        echo "You must have curl or wget installed before running this script." >&2
+        exit 1
+    fi
+}
+
+install=true
+_yes_or_no "Install reserver to /usr/local/bin? This requires root access." || install=false
+
+if [ "$install" = false ]; then
+    echo "Run './reserver.sh' to reserve some space!"
+    download
+    exit 1
+fi
+
+if [ -d "/usr/local/bin" ] && [ "$install" = true ]; then
+    if [ -f "/usr/local/bin/reserver" ]; then
+        echo "You already have reserver installed." >&2
+        echo "You'll need to remove '/usr/local/bin/reserver' before you can reinstall." >&2
+        exit 1
+    fi
+
+    download
+    sudo mv reserver.sh "/usr/local/bin/reserver"
+    echo "Done. Run 'reserver' to reserve some space!"
 else
-    echo "You must have curl or wget installed before running this script." >&2
+    echo "Could not find /usr/local/bin. Ensure your OS is supported." >&2
+    exit 1
 fi
