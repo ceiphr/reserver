@@ -10,7 +10,7 @@ import "prismjs/plugins/command-line/prism-command-line.css";
 
 const Home: NextPage = () => {
     const codeSample = `curl https://ceiphr.io/reserver/install | sh
-Install reserver to /usr/local/bin? This requires root access. [y/N]: y
+Install reserver to /usr/local/bin? Root required. [y/N]: y
 Done. Run 'reserver' to reserve some space!
 reserver
 Reserving 5GB of space...
