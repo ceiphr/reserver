@@ -15,6 +15,15 @@ a {
     text-decoration: none;
 }
 
+.button {
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #dddddd;
+}
+
+.button:hover {
+    background-color: #f4f4f4;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -25,4 +34,14 @@ a {
 
 .katex-display {
     margin: 0 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .button {
+        border: 1px solid #595959;
+    }
+
+    .button:hover {
+        background-color: #222222;
+    }
 }

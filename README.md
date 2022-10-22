@@ -31,7 +31,7 @@ You should always use monitoring software and or SaaS offerings such as [Datadog
 Run the following in the terminal of your server:
 
 ```sh
-curl https://ceiphr.io/reserver/install | sh
+sh -c "$(curl -sL https://ceiphr.io/reserver/install)"
 ```
 
 The installation script uses `curl` or `wget` to get `reserver.sh` from this repository and makes it executable with `chmod +x reserver.sh`. It then moves the script to `/usr/local/bin/reserver` to make it available in your `$PATH`. This operation does require root access.
